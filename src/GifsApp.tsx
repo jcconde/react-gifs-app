@@ -1,8 +1,8 @@
 import { mockGifs } from "./mock-data/gifs.mock.ts";
 import { CustomHeader } from "./shared/components/CustomHeader.tsx";
 import { SearchBar } from "./shared/components/SearchBar.tsx";
-import { PreviousSearches } from "./shared/gifs/components/PreviousSearches.tsx";
-import { GifList } from "./shared/gifs/components/GifList.tsx";
+import { PreviousSearches } from "./gifs/components/PreviousSearches.tsx";
+import { GifList } from "./gifs/components/GifList.tsx";
 import { useState } from "react";
 
 export const GifsApp = () => {
@@ -13,8 +13,17 @@ export const GifsApp = () => {
     console.log({term});
   }
 
-  const handleSearch = (query: string) => {
-    console.log({query});
+  const handleSearch = (query: string = '') => {
+    query = query.trim().toLowerCase();
+    if (query.length === 0) {
+      return;
+    }
+
+    if (previousTerms.includes(query)) {
+      return;
+    }
+
+    setPreviousTerms([query, ...previousTerms]. slice(0, 6));
   }
 
   return (
